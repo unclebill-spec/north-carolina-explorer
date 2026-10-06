@@ -42,3 +42,17 @@ Never work around it. Homes come from Redfin's public map-search data:
 11. Anna: `/workspace/anna/scripts/eng_compile_nc.py`, `spouse_compile_nc.py`, `anna_homes_nc.py` (Redfin), `make_state_json_nc.py` -> `/workspace/north-carolina/anna.json`.
 12. Publish: `sh scripts/sync_shared.sh && cd publish && PATH=/usr/bin:$PATH ./publish.sh -m "msg"` (flock /tmp/ncx_publish.lock, secscan dist + history, push, waits for Pages).
 13. Tests: `perf/smoke.py BASE TAG`, `perf/test_homes.py`, `perf/test_perm.py`.
+
+## Data checks added Oct 5 2026 (keep them)
+- `scripts/listings_build_rf.py` norm(): a Redfin lot of >2,000 ac at <$200/ac is lot square feet typed into the acres field -> read as square feet.
+- `scripts/redfin_extras.py`: big land dedupes (town, price, acres); cave/falls drops a listing when every quote puts the falls off the property (nearby, community, park, "N remote waterfalls"...).
+- Anna tests: `/workspace/anna/test_anna.py <NC URL> 36.10,-80.24` (Winston-Salem zoom with engineering pins).
+
+## Known gaps (Oct 5 2026)
+- Zillow answers 403 to this computer (not bypassed) -> all homes, big land, cave/falls, bargain comps and Anna homes are Redfin. Ten Wake / Mecklenburg ZIP searches came back empty (Redfin bot check).
+- Cave/falls: keyword match on Redfin remarks; 79 waterfalls, 0 caves (the only cave mention was off-property).
+- Big land: 11 lots, all raw land (none with a home under $250k at 50+ ac).
+- Durham RN wage suppressed in BLS -> statewide median used. UNC Health (Cloudflare) and HCA Mission (403) perm jobs are web-search samples (17 + 5).
+- Anna: 22 of 24 engineering salaries are BLS OEWS estimates (NC has no pay-transparency law); bonus amounts estimated. Not searched: Spirit AeroSystems Kinston, Honda Aircraft, HAECO, Siemens Energy.
+- Peaks missing: Chimney Rock, Graybeard, Hawksbill, Shortoff (no article); Mount Craig, Pisgah, Elk Knob (no coords). Carowinds geocodes to SC.
+- Crexi businesses / buildings not built for NC. Some travel facilities unmatched (Reputable Healthcare, HealthTrust Hickory, Kindred, Signature); most Vivian posts don't name the facility.
