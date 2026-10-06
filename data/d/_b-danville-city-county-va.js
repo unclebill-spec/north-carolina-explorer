@@ -1,0 +1,1 @@
+KYXD("_b-danville-city-county-va",{"hospital":{"bva-sovah-health-danville-danville":{"cms_id":"490075","addr":"142 South Main Street","bst":"VA","bmi":2.5,"src":"CMS Hospital General Information (Care Compare); location: OpenStreetMap / Nominatim address match","bco":"Danville City County, VA"}}});

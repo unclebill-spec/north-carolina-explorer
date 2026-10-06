@@ -1,0 +1,1 @@
+KYXD("_b-emporia-city-county-va",{"hospital":{"bva-bon-secours-southern-virginia-medical-center-emporia":{"cms_id":"490097","addr":"727 North Main Street","bst":"VA","bmi":10.8,"src":"CMS Hospital General Information (Care Compare); location: OpenStreetMap / Nominatim address match","bco":"Emporia City County, VA"}}});

@@ -1,0 +1,1 @@
+KYXD("_b-galax-city-county-va",{"hospital":{"bva-twin-county-regional-hospital-galax":{"cms_id":"490115","addr":"200 Hospital Drive","bst":"VA","bmi":7.5,"src":"CMS Hospital General Information (Care Compare); location: OpenStreetMap / Nominatim address match","bco":"Galax City County, VA"}}});

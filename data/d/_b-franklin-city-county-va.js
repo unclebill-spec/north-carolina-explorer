@@ -1,0 +1,1 @@
+KYXD("_b-franklin-city-county-va",{"hospital":{"bva-bon-secours-southampton-memorial-hospital-franklin":{"cms_id":"490092","addr":"100 Fairview Drive - Po Box 817","bst":"VA","bmi":9.2,"src":"CMS Hospital General Information (Care Compare); location: town centre (address not found)","bco":"Franklin City County, VA"}}});

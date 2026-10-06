@@ -1,0 +1,1 @@
+KYXD("_b-chesapeake-city-county-va",{"hospital":{"bva-chesapeake-general-hospital-chesapeake":{"cms_id":"490120","addr":"736 Battlefield Blvd, North","bst":"VA","bmi":13.5,"src":"CMS Hospital General Information (Care Compare); location: OpenStreetMap / Nominatim address match","bco":"Chesapeake City County, VA"}}});

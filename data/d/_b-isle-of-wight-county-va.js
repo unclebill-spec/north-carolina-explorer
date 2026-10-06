@@ -1,0 +1,1 @@
+KYXD("_b-isle-of-wight-county-va",{"school":{"bva-s510201000872":{"addr":"5355 Carrsville Hwy","phone":"(757) 357-8844","grades":"PK–05","level":"Elementary","nces":"510201000872","levels":{},"bst":"VA","bmi":11.3,"bco":"Isle of Wight County, VA","src":"NCES Common Core of Data 2024-2025 (school directory; no state grade on this map)"}}});

@@ -1,0 +1,1 @@
+KYXD("_b-brunswick-county-va",{"school":{"bva-s510048000184":{"addr":"11555 Dry Bread Road","phone":"(434) 577-5000","grades":"PK–05","level":"Elementary","nces":"510048000184","levels":{},"bst":"VA","bmi":8.6,"bco":"Brunswick County, VA","src":"NCES Common Core of Data 2024-2025 (school directory; no state grade on this map)"}}});

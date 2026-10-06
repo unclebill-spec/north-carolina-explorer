@@ -1,0 +1,1 @@
+KYXD("_b-emporia-city-va",{"school":{"bva-s510174000706":{"addr":"403 Harding St","phone":"(434) 634-2195","grades":"09–12","level":"High","nces":"510174000706","levels":{},"bst":"VA","bmi":9.3,"bco":"Emporia city, VA","src":"NCES Common Core of Data 2024-2025 (school directory; no state grade on this map)"}}});
