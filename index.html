@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>North Carolina Explorer</title>
+<meta name="description" content="Interactive North Carolina map for a nurse household: hospitals and trauma centers, school grades, county stats and appeal scores, climate, homes and RN jobs.">
+<meta name="theme-color" content="#123642">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NC Explorer">
+<!--OG-->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="North Carolina Explorer">
+<meta property="og:title" content="North Carolina Explorer — hospitals, schools, counties &amp; RN jobs">
+<meta property="og:description" content="Interactive North Carolina map for a nurse household: hospitals &amp; trauma centers, school grades, county stats and appeal scores, climate, homes and RN jobs.">
+<meta property="og:image" content="https://unclebill-spec.github.io/north-carolina-explorer/img/og.png">
+<meta property="og:url" content="https://unclebill-spec.github.io/north-carolina-explorer/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://unclebill-spec.github.io/north-carolina-explorer/img/og.png">
+<!--/OG-->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%BA%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="style.css?v=202610052225">
+</head>
+<body>
+<div id="map" aria-label="Map of North Carolina"></div>
+
+<header id="topbar">
+  <div class="brand">North Carolina Explorer</div>
+  <div class="searchwrap">
+    <input id="search" type="search" placeholder="Search places, towns, counties, properties…" autocomplete="off" aria-label="Search">
+    <div id="results" hidden></div>
+  </div>
+  <button id="layersBtn" class="btn" aria-expanded="false" aria-controls="layersPanel">Layers</button>
+</header>
+
+<aside id="layersPanel" hidden>
+  <div class="ph"><b>Layers</b><button class="x" data-close="layersPanel" aria-label="Close">×</button></div>
+  <div id="layerList"></div>
+  <div class="sect">
+    <label for="metricSel"><b>Color areas by</b></label>
+    <select id="metricSel"></select>
+    <div id="legend"></div>
+  </div>
+  <div class="sect">
+    <b>Base map</b>
+    <div id="baseList" class="seg"></div>
+  </div>
+  <div class="sect small" id="srcNote"></div>
+</aside>
+
+<aside id="mapKey" aria-label="Map key">
+  <button type="button" id="keyToggle" class="keyhead" aria-expanded="true" aria-controls="keyBody">
+    <b>Map key</b><span id="keyMini" class="keymini" aria-hidden="true"></span><span id="keyMetric" class="keymetric"></span><span class="chev" aria-hidden="true">▾</span>
+  </button>
+  <div id="keyBody"></div>
+</aside>
+
+<div id="infoPop" hidden role="dialog" aria-modal="true" aria-label="How this score works">
+  <div class="infobox"><button type="button" class="x infox" id="infoClose" aria-label="Close">×</button><div id="infoBody"></div></div>
+</div>
+
+<section id="card" hidden aria-live="polite">
+  <div class="grab" aria-hidden="true"></div>
+  <div class="cardtools"><button type="button" class="ctb ctback" id="cardBack" aria-label="Back to the previous page" title="Back">‹ Back</button><button type="button" class="ctb ctmap" id="cardMap" aria-label="Show on map">🗺 Show on map</button><button type="button" class="ctb ctfav" id="cardFav" aria-label="Save to favorites" aria-pressed="false" title="Save to favorites" hidden>♡</button><button type="button" class="ctb" id="cardShare" aria-label="Share" title="Share"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke="currentColor" stroke-width="2" fill="none"/></svg></button><button type="button" class="ctb" id="cardExp" aria-label="Expand to full screen" aria-pressed="false" title="Expand">⤢</button><button class="ctb cardx" id="cardClose" aria-label="Close card" title="Close">×</button></div>
+  <div id="cardBody"></div>
+</section>
+
+<div id="lightbox" hidden role="dialog" aria-label="Photo viewer">
+  <button class="lbx" id="lbClose" aria-label="Close">×</button>
+  <button class="lbnav prev" id="lbPrev" aria-label="Previous photo">‹</button>
+  <div class="lbstage"><img id="lbImg" alt=""></div>
+  <button class="lbnav next" id="lbNext" aria-label="Next photo">›</button>
+  <div class="lbcount" id="lbCount"></div>
+</div>
+<div id="toast" hidden></div>
+
+<script src="vendor/leaflet.js"></script>
+<script src="data/core.js?v=202610052225"></script>
+<script src="app.js?v=202610052225"></script>
+</body>
+</html>

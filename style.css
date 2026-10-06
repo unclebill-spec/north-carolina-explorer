@@ -1,0 +1,655 @@
+:root{--ink:#16232b;--muted:#5d6b73;--bg:#fff;--line:#e3e8eb;--accent:#0f6b6f;--gold:#e8a317;--red:#c62828;
+  --blue:#1e5bd8;--green:#2e9a4b;--yellow:#e6c229;--orange:#ef7d1a;--rred:#d33a2c}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink)}
+#map{position:fixed;inset:0}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:8px 14px;font-weight:600}
+.btn.ghost{background:#eef4f4;color:var(--accent)}
+.x{background:none;border:0;font-size:26px;line-height:1;color:var(--muted);padding:4px 8px}
+#topbar{position:fixed;top:calc(8px + env(safe-area-inset-top));left:8px;right:8px;z-index:1000;display:flex;gap:8px;align-items:center;pointer-events:none}
+#topbar>*{pointer-events:auto}
+.brand{background:#123642;color:#fff;font-weight:700;padding:8px 12px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 8px #0003}
+.searchwrap{position:relative;flex:1;max-width:420px}
+#search{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:16px;box-shadow:0 2px 8px #0002}
+#results{position:absolute;top:44px;left:0;right:0;background:#fff;border-radius:10px;box-shadow:0 6px 20px #0003;max-height:60vh;overflow:auto}
+#results div{padding:8px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+#results div:hover,#results div.sel{background:#eef6f6}
+#results small{color:var(--muted)}
+#layersPanel{position:fixed;z-index:1001;top:calc(60px + env(safe-area-inset-top));right:8px;width:310px;max-height:calc(100vh - 80px);overflow:auto;background:#fff;border-radius:14px;box-shadow:0 8px 28px #0004;padding:10px 14px}
+.ph{display:flex;justify-content:space-between;align-items:center}
+.sect{border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+.small{font-size:12px;color:var(--muted)}
+#layerList label{display:flex;align-items:center;gap:8px;padding:5px 0}
+#layerList .sub{padding-left:26px}
+#layerList .cnt{margin-left:auto;color:var(--muted);font-size:12px}
+#layerList .dis{opacity:.5}
+select{width:100%;padding:7px;border-radius:8px;border:1px solid var(--line);font-size:15px;margin-top:6px}
+.seg{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.seg button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#legend{margin-top:8px;font-size:12px}
+#legend .bar{display:flex;height:12px;border-radius:4px;overflow:hidden;margin:4px 0}
+#legend .bar span{flex:1}
+#legend .ends{display:flex;justify-content:space-between;color:var(--muted)}
+/* card */
+#card{position:fixed;z-index:1002;background:#fff;box-shadow:0 -6px 30px #0004;overflow:auto;-webkit-overflow-scrolling:touch}
+@media (min-width:800px){#card{top:68px;right:8px;bottom:8px;width:420px;border-radius:14px}#card .grab{display:none}}
+@media (max-width:799px){#card{left:0;right:0;bottom:0;max-height:72vh;border-radius:16px 16px 0 0;padding-bottom:env(safe-area-inset-bottom)}
+ #layersPanel{left:8px;right:8px;width:auto}.brand{display:none}}
+.grab{width:44px;height:5px;background:#cfd8dc;border-radius:3px;margin:8px auto 0}
+.cardx{position:sticky;top:4px;float:right;z-index:5;background:#fffd;border-radius:50%}
+#cardBody{padding:6px 16px 18px}
+#cardBody h2{font-size:19px;margin:8px 34px 2px 0;line-height:1.25}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);font-weight:700;margin-top:10px}
+.sub{color:var(--muted);font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.stat{background:#f3f7f8;border-radius:10px;padding:7px 8px}
+.stat b{display:block;font-size:16px}
+.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.kv{width:100%;border-collapse:collapse;margin:6px 0}
+.kv td{padding:5px 2px;border-bottom:1px solid var(--line);vertical-align:top}
+.kv td:first-child{color:var(--muted);width:40%;padding-right:8px}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left}
+.tbl th{font-size:11px;text-transform:uppercase;color:var(--muted)}
+.tbl td.n{text-align:right;white-space:nowrap}
+.badges{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.badge{background:#eef4f4;border-radius:20px;padding:3px 9px;font-size:12px}
+.badge.gold{background:#fff1cf;color:#7a5200;font-weight:600}
+.note{background:#fff7e0;border-left:4px solid var(--gold);padding:7px 10px;border-radius:6px;font-size:13px;margin:8px 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.actions .btn{flex:1;text-align:center;text-decoration:none;min-width:110px}
+a{color:var(--accent)}
+a.inl{cursor:pointer;text-decoration:underline}
+.r{display:inline-block;padding:1px 8px;border-radius:10px;color:#fff;font-size:12px;font-weight:600}
+.r.Blue{background:var(--blue)}.r.Green{background:var(--green)}.r.Yellow{background:var(--yellow);color:#332}.r.Orange{background:var(--orange)}.r.Red{background:var(--rred)}
+.thumb{margin:10px 0}.thumb img{width:100%;border-radius:10px;max-height:260px;object-fit:cover;background:#eee}
+.attr{font-size:11px;color:var(--muted)}
+.desc{font-size:14px;white-space:pre-line}
+/* gallery */
+.gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:6px;margin:8px -16px 4px;padding:0 16px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gal img{flex:0 0 88%;height:230px;object-fit:cover;border-radius:12px;scroll-snap-align:center;cursor:zoom-in;background:#eee}
+.galcount{font-size:12px;color:var(--muted);text-align:center}
+#lightbox{position:fixed;inset:0;z-index:3000;background:#000e;display:flex;align-items:center;justify-content:center;touch-action:none}
+#lightbox[hidden]{display:none}
+.lbstage{max-width:100vw;max-height:100vh;display:flex;align-items:center;justify-content:center}
+#lbImg{max-width:100vw;max-height:92vh;object-fit:contain;user-select:none;-webkit-user-drag:none;transition:transform .15s}
+.lbx{position:absolute;top:calc(10px + env(safe-area-inset-top));right:12px;font-size:34px;color:#fff;background:none;border:0;z-index:2}
+.lbnav{position:absolute;top:50%;transform:translateY(-50%);font-size:46px;color:#fff;background:#0005;border:0;border-radius:50%;width:54px;height:54px;line-height:50px;z-index:2}
+.lbnav.prev{left:10px}.lbnav.next{right:10px}
+.lbcount{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom));color:#fff;font-size:14px}
+#toast{position:fixed;z-index:4000;left:50%;bottom:30px;transform:translateX(-50%);background:#123642;color:#fff;padding:9px 16px;border-radius:20px;box-shadow:0 4px 14px #0005}
+/* markers */
+.mk{display:flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;box-shadow:0 1px 4px #0006;border:2px solid #fff;font-size:13px}
+.mk.hosp{background:var(--red);font-size:15px}
+.mk.trauma{background:#8b0000;border-color:#ffd54f;font-size:11px}
+.mk.prop{background:var(--accent);border-radius:50% 50% 50% 0;transform:rotate(-45deg)}
+.mk.prop i{transform:rotate(45deg);font-style:normal}
+.mk.home{background:#00897b;border-radius:7px;font-size:13px}
+.mk.nh{background:#1565c0;border-radius:7px;font-size:13px;position:relative}
+.mk.nh i{font-style:normal;line-height:1}
+.mk.nh::after{content:"+";position:absolute;top:-6px;right:-6px;width:12px;height:12px;border-radius:50%;background:#d32f2f;color:#fff;font-size:11px;line-height:11px;text-align:center;border:1px solid #fff;font-weight:700}
+.nhbox{display:flex;gap:10px;align-items:center;background:#e8f0fe;border-left:4px solid #1565c0;border-radius:8px;padding:8px 10px;margin:8px 0;font-size:13px}
+.nhbox .nhmin{display:flex;flex-direction:column;align-items:center;min-width:48px;color:#1565c0}
+.nhbox .nhmin b{font-size:22px;line-height:1}.nhbox .nhmin span{font-size:11px}
+.note.good{background:#e8f5e9;border-left-color:#2e7d32}
+.mk.home i{font-style:normal;line-height:1}
+.mk.home.feat{border-color:#ffc107;box-shadow:0 0 0 2px #e8a31799,0 1px 4px #0006}
+.mk.home.approx{border-style:dashed}
+#layerList .hfilter{display:flex;flex-wrap:wrap;gap:4px 10px;padding:0 0 6px 26px}
+#layerList .hfilter label.hf{display:flex;align-items:center;gap:4px;padding:0;font-size:12px;color:var(--muted)}
+#layerList .hfilter select{font-size:12px;padding:2px 4px;max-width:130px}
+.mk.star{background:radial-gradient(circle at 35% 30%,#ffe082,#e8a317 60%,#b26a00);border-color:#fff;font-size:17px;animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #e8a317aa}70%{box-shadow:0 0 0 14px #e8a31700}100%{box-shadow:0 0 0 0 #e8a31700}}
+.mk.col{background:#6a1b9a;font-size:12px}
+.mk.act{background:#2e7d32;font-size:13px}
+.mk.hist{font-size:13px}
+.mk.h-mine{background:#5d4037}.mk.h-coal_camp{background:#37474f}.mk.h-ghost_town{background:#7e57c2}.mk.h-historic{background:#b8860b}
+.approx{border:2px dashed var(--gold)!important}
+.leaflet-tooltip{font-size:12px}
+.county-label{background:none;border:0;box-shadow:none;color:#123642;font-weight:600;font-size:11px;text-shadow:0 0 3px #fff,0 0 3px #fff}
+.mc-hist div{background:#5d4037cc!important;color:#fff}
+
+.z-low .mk.hosp.spec{display:none}
+.z-low .mk{transform:scale(.8)}
+.z-low .mk.prop{transform:rotate(-45deg) scale(.8)}
+.z-vlow .mk{transform:scale(.65)}
+.z-vlow .mk.prop{transform:rotate(-45deg) scale(.7)}
+.z-vlow .mk.star{transform:scale(.85)}
+/* card thumbnails (img/thumbs, see fetch_thumbs.py) */
+#cardBody>.thumb:first-child{margin:4px 30px 8px 0}
+.thumb{position:relative}
+.thumbbtn{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;position:relative}
+.thumbbtn img{display:block;width:100%;height:auto;aspect-ratio:400/260;max-height:260px;object-fit:cover;border-radius:10px;background:#e3e9eb}
+.thumb.sat .thumbbtn img{object-fit:cover}
+.thtag{position:absolute;left:8px;bottom:8px;background:#000a;color:#fff;font-size:11px;padding:2px 7px;border-radius:10px;pointer-events:none}
+.thumb figcaption{margin-top:3px;line-height:1.3;overflow-wrap:anywhere}
+#lightbox.single .lbnav{display:none}
+.lbcount{left:12px;right:12px;text-align:center;font-size:12px}
+/* ---- map key (legend) ---- */
+#mapKey{position:fixed;z-index:999;left:8px;top:calc(60px + env(safe-area-inset-top));width:310px;max-height:calc(100vh - 190px);display:flex;flex-direction:column;
+  background:#fffffff2;border-radius:12px;box-shadow:0 4px 18px #0003;font-size:12.5px;overflow:hidden}
+.keyhead{display:flex;align-items:center;gap:8px;width:100%;border:0;background:#123642;color:#fff;padding:7px 10px;text-align:left;font-size:13px}
+.keyhead .chev{margin-left:auto;transition:transform .15s}
+#mapKey.collapsed .chev{transform:rotate(-90deg)}
+.keymini{display:none;height:10px;width:54px;border-radius:3px;overflow:hidden}
+.keymini span{flex:1}
+.keymetric{display:none;font-weight:400;font-size:12px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+#mapKey.collapsed{width:auto;max-width:calc(100vw - 16px)}
+#mapKey.collapsed #keyBody{display:none}
+#mapKey.collapsed .keymini{display:flex}
+#mapKey.collapsed .keymetric{display:inline}
+#keyBody{overflow:auto;padding:4px 10px 8px;-webkit-overflow-scrolling:touch}
+.ksec{padding:6px 0;border-bottom:1px solid var(--line)}
+.ksec .ksec{border:0;padding:4px 0 0}
+.ktitle{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700}
+.kmetric{font-weight:700;margin:1px 0 4px}
+.kband{display:grid;grid-template-columns:18px 1fr auto 22px;align-items:center;gap:6px;padding:2px 0}
+.kband .kl{font-weight:600}
+.kband .kr{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.kband .kn{text-align:right;color:var(--muted);font-size:11px}
+.sw{display:inline-block;width:16px;height:14px;border-radius:3px;border:1px solid #0002;vertical-align:-2px}
+.krow{display:flex;align-items:center;gap:7px;padding:2px 0;line-height:1.25}
+.ksym{flex:0 0 26px;display:flex;justify-content:center;align-items:center;min-height:24px}
+.ksym .mk{box-shadow:0 1px 2px #0005;animation:none}
+.ksym .mk.prop{transform:rotate(-45deg)}
+.kdot{display:inline-block;width:13px;height:13px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 0 0 1px #0003}
+.ksel{display:inline-block;width:20px;height:20px;border-radius:50%;border:3px solid #e8a317}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:4px}
+.kbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.linkbtn{background:none;border:0;padding:2px 0;color:var(--accent);font-weight:600;text-decoration:underline;font-size:12.5px}
+.koff summary{cursor:pointer;color:var(--accent);font-weight:600;padding:2px 0}
+.koff{border-bottom:0}
+@media (max-width:799px){
+  #mapKey{top:calc(58px + env(safe-area-inset-top));width:min(320px,calc(100vw - 16px));max-height:60vh}
+  .keymetric{max-width:120px}
+}
+/* ---- appeal block in county card ---- */
+.appeal{display:flex;gap:12px;align-items:center;margin:10px 0 4px;padding:10px;border-radius:12px;background:#f3f7f8;border-left:6px solid var(--band)}
+.ascore{flex:0 0 auto;width:68px;height:68px;border-radius:50%;background:var(--band);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-shadow:0 1px 2px #0006}
+.ascore b{font-size:22px;line-height:1}.ascore span{font-size:10px;opacity:.9}
+.arank{font-size:16px;font-weight:700}
+.aband{color:var(--ink)}
+.abreak summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:13px;margin:4px 0}
+/* ---- info popover ---- */
+#infoPop{position:fixed;inset:0;z-index:3500;background:#0008;display:flex;align-items:center;justify-content:center;padding:12px}
+#infoPop[hidden]{display:none}
+.infobox{background:#fff;border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:12px 18px 16px;box-shadow:0 10px 40px #0006;position:relative}
+.infobox h2{font-size:19px;margin:6px 30px 6px 0}
+.infox{position:sticky;top:0;float:right}
+.wtbl td.n{vertical-align:top;font-size:16px;width:34px}
+.infobox ul{padding-left:18px;margin:4px 0}
+/* travel-nurse assignments layer */
+.mk.tj{border-radius:11px;font-size:11px;letter-spacing:-.2px;white-space:nowrap;border-width:1.5px}
+.mk.tj.dk{color:#222}
+.z-vlow .mk.tj{transform:scale(.8)}
+.tjrow{border-top:1px solid var(--line);padding:7px 0 6px}
+.tjrow .tjtop{font-size:14px}
+.tjpay{color:var(--ink);margin-right:4px}
+.tjnote{background:#f6f8f0;border-left:3px solid var(--gold);padding:5px 8px;margin:6px 0;border-radius:4px}
+/* ---- county card: tappable count tiles -> grouping pages (#county=<slug>&cat=<cat>) ---- */
+.stats.gtiles{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));margin-bottom:4px}
+.stat.gt{position:relative;display:block;min-height:54px;padding-right:18px}
+a.stat.tap{color:var(--ink);text-decoration:none;background:#e9f3f3;border:1px solid #bcd9d9;-webkit-tap-highlight-color:transparent;transition:transform .08s,background .08s}
+a.stat.tap b{color:var(--accent)}
+a.stat.tap span{text-decoration:underline;text-decoration-color:#9cc3c3;text-underline-offset:2px}
+a.stat.tap .gchev{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-style:normal;font-size:20px;color:var(--accent);line-height:1}
+a.stat.tap:active,a.stat.tap.pressed{background:#cfe6e6;transform:scale(.96)}
+a.stat.tap:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+@media (hover:hover){a.stat.tap:hover{background:#dceeee}}
+.stat.zero{opacity:.5}
+.gtip{margin:0 0 6px}
+/* grouping page */
+@media (max-width:799px){#card.tall{max-height:86vh}}
+.gbar{position:sticky;top:0;z-index:4;display:flex;align-items:center;gap:8px;background:#fff;margin:0 -16px;padding:6px 50px 6px 12px;border-bottom:1px solid var(--line)}
+.gback,.gshare,.gfrom{border:0;border-radius:20px;font-weight:700;min-height:40px;padding:8px 14px;-webkit-tap-highlight-color:transparent}
+.gback{background:#e3f0f0;color:var(--accent);flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gshare{background:var(--accent);color:#fff;margin-left:auto;flex:0 0 auto}
+.gback:active,.gshare:active,.gfrom:active{transform:scale(.96);filter:brightness(.92)}
+.gfrom{display:inline-block;background:#e3f0f0;color:var(--accent);margin:4px 40px 2px 0;max-width:calc(100% - 40px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gjump{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+.gjump button{border:1px solid #bcd9d9;background:#f3f8f8;color:var(--accent);border-radius:16px;padding:6px 10px;font-size:13px;font-weight:600;min-height:34px}
+.gjump button b{color:var(--ink);font-weight:700;margin-left:2px}
+.gsec{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);font-weight:700;margin:12px 0 0;padding:6px 0 4px;border-bottom:2px solid #d9e8e8}
+.gsec span{color:var(--muted);font-weight:600}
+.glist{margin:4px 0 6px}
+.grow{display:flex;align-items:center;gap:10px;padding:8px 2px;min-height:68px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;-webkit-tap-highlight-color:transparent;content-visibility:auto;contain-intrinsic-size:auto 76px}
+.grow:active{background:#e6f2f2}
+@media (hover:hover){.grow:hover{background:#f3f8f8}}
+.gth{flex:0 0 60px;width:60px;height:60px;border-radius:9px;object-fit:cover;background:#e3e9eb;display:flex;align-items:center;justify-content:center;font-size:24px}
+.gtx{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.3}
+.g1{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g2,.g3{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g2.wrap{white-space:normal}
+.grow>.gchev{flex:0 0 auto;font-style:normal;font-size:24px;color:#8fb5b5;line-height:1}
+.gtag{background:#eef4f4;border-radius:10px;padding:0 6px;color:var(--ink)}
+.gtag.tr{background:#fff1cf;color:#7a5200;font-weight:600}
+.gpay{color:#1a6a2f;font-weight:700}
+.gstar{color:#9a6400;font-weight:600}
+.glv{white-space:nowrap;margin-right:4px;color:var(--ink)}
+.glv .r{font-size:11px;padding:0 6px}
+.r.nr{background:#9e9e9e}
+.glv .up{color:#1a6a2f;font-weight:600}.glv .dn{color:#b3361f;font-weight:600}
+.gempty{color:var(--muted);font-size:13px;padding:10px 2px;border-bottom:1px solid var(--line)}
+#cardBody{overflow-wrap:anywhere}
+
+/* ---- more layers: airports, businesses & buildings for sale, attractions, zoomed-out dots ---- */
+.mk.apt{background:#0d47a1;border-radius:8px;font-size:15px}
+.mk.apt.oos{background:#546e7a}
+.mk.apt.ga{background:#90a4ae}
+.mk.biz{background:#1b5e20;color:#69f0ae;border-radius:6px;font-size:15px;font-weight:900;font-family:system-ui,-apple-system,sans-serif}
+.mk.bldg{background:#8e244d;border-radius:6px;font-size:13px}
+.mk.att{border-radius:7px;font-size:13px}
+.mk.at-camp{background:#5b7f1f}.mk.at-aquarium{background:#00838f}.mk.at-museum{background:#3949ab}.mk.at-amusement{background:#c2185b}.mk.at-water{background:#0288d1}
+.plab{position:absolute;left:25px;top:4px;background:#fff;color:#222;font:700 10.5px/15px system-ui,-apple-system,sans-serif;padding:0 5px 0 6px;border-radius:3px 8px 8px 3px;box-shadow:0 1px 3px #0006;white-space:nowrap;pointer-events:none}
+.plab.apt{color:#0d47a1;top:6px;left:28px;border-radius:4px}
+.plab.biz{color:#1b5e20;border-left:3px solid #1b5e20}
+.plab.bldg{color:#2e7d32;border-left:3px solid #2e7d32}
+.z-vlow .plab{display:none}
+/* zoomed out: always-on icons (hospitals, airports, museums, aquarium, standouts) stay readable but compact */
+.z-low .mk.trauma{transform:scale(.7)}
+.z-low .mk.hosp{transform:scale(.72)}
+.z-low .mk.att{transform:scale(.75)}
+.z-low .mk.apt{transform:scale(.8)}
+.z-vlow .mk.trauma{transform:scale(.5)}
+.z-vlow .mk.hosp{transform:scale(.5)}
+.z-vlow .mk.att{transform:scale(.5)}
+.z-vlow .mk.apt{transform:scale(.58)}
+.mk.stout{box-shadow:0 0 0 2.5px #ffc400,0 1px 4px #0009}
+.z-low .mk.biz,.z-low .mk.bldg{transform:scale(.62)}
+.z-vlow .mk.biz,.z-vlow .mk.bldg{transform:scale(.5)}
+.z-low .plab.biz,.z-low .plab.bldg{display:none}
+.z-low .mk.stout{transform:scale(.72)}
+.z-vlow .mk.stout{transform:scale(.52)}
+
+/* ---- SVG glyph pins (houses, bargain/building stars, school caps, diplomas, outdoor, nursing cross, nurse's cap) ---- */
+.mk.sv{background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important;filter:drop-shadow(0 1px 1.2px #000b)}
+.mk.sv svg{display:block;overflow:visible}
+.mk.sv.stout{filter:drop-shadow(0 0 1.6px #ffc400) drop-shadow(0 0 1.6px #ffc400) drop-shadow(0 1px 1px #0009)}
+.ksym .mk.sv{width:auto!important;height:auto!important;display:inline-flex}
+.mk.tjc{transform:none}
+.z-vlow .mk.tjc{transform:scale(.85)}
+.note.deal{background:#e3f2fd;border-left:4px solid #1565c0;color:#0d2a4d}
+.kv.nb td{padding:3px 4px;font-size:13px;line-height:1.35;vertical-align:top}
+.kv.nb td:first-child{white-space:nowrap;width:1%}
+.ksym{flex:0 0 auto;min-width:26px}
+
+/* ---- top-10 bubbles south of Kentucky (#deals, #top-buildings, #top-businesses) + fixed fallback button ---- */
+.topbub-wrap{background:none;border:0}
+.topbub .mk.biz,.topmenu .mk.biz{display:inline-flex;align-items:center;justify-content:center;transform:none!important;box-shadow:0 0 0 1.5px #fff}
+.topbtn{position:fixed;z-index:1000;right:8px;bottom:calc(26px + env(safe-area-inset-bottom));border:0;border-radius:20px;padding:9px 13px;min-height:40px;background:#1565c0;color:#fff;font-weight:800;box-shadow:0 2px 10px #0006,0 0 0 2px #ffd600}
+.topmenu{position:fixed;z-index:1001;right:8px;bottom:calc(74px + env(safe-area-inset-bottom));background:#fff;border-radius:12px;box-shadow:0 6px 24px #0005;padding:6px;min-width:230px}
+.topmenu a{display:flex;align-items:center;gap:8px;padding:9px 8px;min-height:40px;color:var(--ink);text-decoration:none;font-weight:700;border-radius:8px}
+.topmenu a:active{background:#e6f2f2}
+.topmenu .tbi svg{width:22px;height:22px;display:block}
+.topmenu .small{padding:2px 8px 4px;color:var(--muted)}
+.tnav{margin-top:6px}
+.tnav .tchip{border:1px solid #bcd9d9;background:#f3f8f8;color:var(--accent);border-radius:16px;padding:6px 10px;font-size:13px;font-weight:600;min-height:34px;text-decoration:none;display:inline-flex;align-items:center}
+.tnav .tchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tupd{color:#1a6a2f;font-weight:700}
+.tlist .g1{white-space:normal}
+/* travel-job bubbles (nurse-cap style) + Apply link on list rows */
+.trow{position:relative}
+.trow .grow{padding-right:74px}
+.tapply{position:absolute;right:24px;top:50%;transform:translateY(-50%);background:var(--accent);color:#fff;border-radius:16px;padding:7px 10px;font-size:13px;font-weight:700;text-decoration:none;min-height:34px;display:inline-flex;align-items:center;white-space:nowrap}
+.tapply:active{filter:brightness(.9)}
+.trow .grow>.gchev{display:none}
+.trow .grow{padding-right:92px}
+.tapply{right:4px}
+
+/* ---- top-10 bubbles: one grid just south of Kentucky, 2 rows (3 + 2). All five share size, shape, font and style; each has its own color.
+   Width is in screen pixels (fits 3 across a 360 px phone), so they can't overlap at any zoom. ---- */
+.topgrid{position:absolute;left:0;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;--tbw:min(122px,calc((100vw - 30px) / 3))}
+.toprow{display:flex;gap:6px;justify-content:center}
+.topbub{box-sizing:border-box;width:var(--tbw);height:50px;flex:0 0 auto;display:flex;align-items:center;gap:5px;padding:4px 6px 4px 4px;border-radius:14px;overflow:hidden;
+  color:#fff;font:800 11px/1.13 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;white-space:normal;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 2px 8px #0007,0 0 0 2px #fff;animation:tbpulse 2.6s ease-in-out 3}
+.leaflet-container a.topbub,.leaflet-container a.topbub:hover,a.topbub:visited{color:#fff}
+.topbub .tbi{flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.topbub .tbi svg{width:22px;height:22px;display:block}
+.topbub .tbi svg[viewBox="0 0 36 22"]{width:24px;height:15px}
+.topbub .tbi .mk.biz{width:20px!important;height:20px!important;font-size:12px;box-shadow:none;border-width:1.5px}
+.topbub .tbt{min-width:0;overflow-wrap:break-word}
+.topbub .tbt small{display:block;font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.9}
+.topbub.tb-deals{background:#1565c0}
+.topbub.tb-bldg{background:#6a1b9a}
+.topbub.tb-biz{background:#c43e00}
+.topbub.tb-er{background:#c62828}
+.topbub.tb-oj{background:#00796b}
+.topbub:active{transform:scale(.95)}
+@media (hover:hover){.topbub:hover{filter:brightness(1.12)}}
+@keyframes tbpulse{0%,100%{box-shadow:0 2px 8px #0007,0 0 0 2px #fff}50%{box-shadow:0 2px 8px #0007,0 0 0 4px #ffd600cc}}
+@media (max-width:370px){.topbub{font-size:10.3px}.topbub .tbt small{font-size:9px}}
+.topmenu .tbi svg[viewBox="0 0 36 22"]{width:32px;height:20px}
+.cardload{padding:28px 6px;color:var(--muted);font-weight:600}
+/* card header tools: share · expand · close (sticky, overlay the top-right corner; take no height) */
+.cardtools{position:sticky;top:0;z-index:6;height:0;display:flex;justify-content:flex-end;align-items:flex-start;gap:6px;padding:0 8px 0 0;overflow:visible;pointer-events:none}
+.cardtools .ctb{pointer-events:auto;margin-top:7px;width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:0;background:#fffffff0;box-shadow:0 1px 5px #0003;font-size:20px;line-height:1;color:#123642;display:flex;align-items:center;justify-content:center;padding:0;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.cardtools .ctb:active{transform:scale(.94)}
+.cardtools .ctb svg{fill:currentColor}
+.cardtools .cardx{position:static;float:none;font-size:26px;color:#123642}
+.cardtools .ctmap{display:none;width:auto;flex:0 0 auto;border-radius:19px;padding:0 13px;font-size:14px;font-weight:700;background:var(--accent);color:#fff}
+#cardBody h2{margin-right:4px}
+#cardBody>.kicker:first-child,#cardBody>.gfrom:first-child{margin-right:136px}
+#cardBody>.thumb:first-child,#cardBody>.gal:first-child{margin-top:8px}
+#card.tall #cardShare{display:none}
+.gbar{padding-right:100px}
+/* full-screen card */
+#card.full{top:0;left:0;right:0;bottom:0;width:auto;max-height:none;height:100%;border-radius:0;z-index:2500;box-shadow:none;padding-bottom:env(safe-area-inset-bottom)}
+#card.full .grab{display:none}
+#card.full .ctmap{display:flex}
+#card.full #cardBody{max-width:880px;margin:0 auto;padding:6px 18px 48px}
+#card.full .gbar{margin:0 -18px;padding-right:250px}
+#card.full .gal{margin:8px -18px 4px;padding:0}
+#card.full .gal img{flex:0 0 100%;height:min(62vh,600px);border-radius:0}
+#card.full .thumb img,#card.full .thumbbtn img{max-height:min(62vh,600px)}
+#card.full #cardBody h2{font-size:23px}
+#card.full #cardBody>.kicker:first-child,#card.full #cardBody>.gfrom:first-child{margin-right:250px}
+@media (max-width:520px){#card.full .gbar{padding-right:16px;margin-top:52px}#card.full #cardBody>.kicker:first-child,#card.full #cardBody>.gfrom:first-child{margin-right:0;margin-top:52px}#card.full #cardBody>.thumb:first-child,#card.full #cardBody>.gal:first-child{margin-top:52px}}
+html.cardfull #map,html.cardfull #topbar,html.cardfull #mapKey,html.cardfull .topbtn{visibility:hidden}
+/* bigger invisible hit area on every map pin (>= 44x44 px) without changing how it looks */
+.leaflet-marker-icon:not(.topbub-wrap)::before{content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%}
+/* tap chooser (two or more pins about equally close) */
+.tappop .leaflet-popup-content{margin:8px 8px 6px}
+.tapch-h{font:700 12px/1.2 system-ui,sans-serif;color:#56707a;margin:0 26px 6px 4px;text-transform:uppercase;letter-spacing:.04em}
+.tapch button{display:flex;align-items:center;gap:9px;width:100%;min-height:44px;border:0;border-top:1px solid #e3eaec;background:none;padding:6px 4px;text-align:left;font:600 14px/1.25 system-ui,sans-serif;color:#123642;cursor:pointer}
+.tapch button:active{background:#e3f0f0}
+.tcico{flex:0 0 30px;display:flex;justify-content:center}
+.tcico .mk{position:static;transform:none!important;animation:none}
+.tct small{display:block;font-weight:500;color:#6b8088;font-size:12px}
+/* 5 largest cities: tiny skyscraper + population, under every other pin, at every zoom */
+.mk.city{background:none;border:0;box-shadow:none;border-radius:0;width:12px;height:16px;filter:drop-shadow(0 1px 1px #0007)}
+.plab.city{left:13px;top:1px;font:800 9.5px/13px system-ui,-apple-system,sans-serif;color:#263238;padding:0 4px;border-radius:3px;box-shadow:0 1px 2px #0005;background:#ffffffe8}
+.z-vlow .plab.city,.z-low .plab.city{display:block}
+.z-low .mk.city,.z-vlow .mk.city{transform:none}
+.kcity{position:relative;display:inline-block;width:44px;height:18px}
+.kcity .plab.city{top:2px}
+/* ‹ Back (header, left) whenever there is a previous page; lists use their own sticky bar's button */
+.cardtools{padding-left:8px}
+.cardtools .ctback{display:none;margin-right:auto;width:auto;flex:0 0 auto;border-radius:19px;padding:0 15px 0 11px;font-size:15px;font-weight:800;color:var(--accent)}
+#card.hasback .ctback{display:flex}
+#card.tall .ctback{display:none}
+#card.hasback:not(.tall) #cardBody{padding-top:46px}
+#card.full.hasback:not(.tall) #cardBody{padding-top:52px}
+@media (max-width:520px){#card.full.hasback:not(.tall) #cardBody>:first-child{margin-top:0}}
+#card{overflow-anchor:none}  /* restored scroll positions must not be shifted by scroll anchoring */
+
+/* ---- profiles P1..P4: 5 small pills top-left (under the collapsed map key on phones, right of the key on desktop) ---- */
+.profbar{position:fixed;z-index:998;left:8px;top:calc(106px + env(safe-area-inset-top));display:flex;gap:5px;max-width:calc(100vw - 70px);flex-wrap:nowrap}
+.pfb{height:32px;min-width:36px;padding:0 10px;border-radius:16px;border:1px solid #0002;background:#fff;color:var(--ink);font:600 13px/30px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-shadow:0 2px 6px #0003;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pfb.unset{color:var(--muted);border-style:dashed;background:#fffd}
+.pfb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pfb.busy{opacity:.6}
+.pfb:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+@media (min-width:800px){.profbar{left:326px;top:calc(60px + env(safe-area-inset-top))}}
+html.cardfull .profbar{visibility:hidden}
+/* profile panel */
+.pform{margin-top:6px}
+.pfsec{border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:0 10px;background:#fff}
+.pfsec>summary{font-weight:700;padding:11px 0;cursor:pointer;list-style:none;min-height:22px}
+.pfsec>summary::-webkit-details-marker{display:none}
+.pfsec>summary::after{content:"▸";float:right;color:var(--muted);transition:transform .15s}
+.pfsec[open]>summary::after{transform:rotate(90deg)}
+.pfsec[open]{padding-bottom:10px}
+.pfsub{margin:6px 0}.pfsub>summary{cursor:pointer;color:var(--accent);font-weight:600;padding:6px 0}
+.pfh{font-weight:600;font-size:13px;margin:10px 0 4px}
+.pfgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+.pfgrid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pfn{display:flex;flex-direction:column;font-size:12px;color:var(--muted);gap:3px;margin:4px 0}
+.pfn input,.pfn select{font-size:16px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fff;margin:0;width:100%;box-sizing:border-box;min-height:38px}
+.pfn input:invalid,.pfn input.bad{border-color:var(--red)}
+.pfc{display:flex;align-items:center;gap:6px;font-size:14px;min-height:34px;line-height:1.2}
+.pfc input,.pfsr input{width:20px;height:20px;margin:0;flex:none}
+.pfspec{display:flex;flex-direction:column;gap:2px}
+.pfsr{display:flex;align-items:center;gap:10px;font-size:14px;min-height:34px;border-bottom:1px solid var(--line)}
+.pfsr span{flex:1}.pfsr label{display:flex;align-items:center;gap:3px;padding:4px}
+.pfmulti{min-height:120px}
+.pfact{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.pfact .btn{min-height:40px;text-decoration:none;display:inline-flex;align-items:center}
+.pferr{background:#fdecea;color:var(--red);border-radius:8px;padding:8px 10px;margin:8px 0;font-weight:600}
+.pnote{background:#eef4f4;border-left:4px solid var(--accent);border-radius:8px;padding:7px 10px;margin:8px 0;font-size:13px}
+.pon{background:var(--accent);color:#fff;border-radius:6px;padding:0 6px}
+.linkbtn{background:none;border:0;color:var(--accent);text-decoration:underline;font:inherit;padding:0;cursor:pointer}
+
+/* ---- solo layer buttons: a small vertical stack on the right (under the Layers button, above Top 10s) ---- */
+.lstack{position:fixed;z-index:997;right:8px;top:calc(62px + env(safe-area-inset-top));display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.lsb{display:flex;align-items:center;gap:4px;height:32px;min-width:62px;padding:0 9px 0 6px;border-radius:16px;border:1px solid #0002;background:#fffe;color:var(--ink);
+  font:700 11.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 2px 6px #0003;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap}
+.lsb .lsi{font-size:15px;width:18px;text-align:center}
+.lsb.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 0 0 2px #fff,0 2px 8px #0005}
+.lsb.lsall.on{background:#123642;border-color:#123642}
+.lsb:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+@media (max-height:640px){.lsb{height:28px}.lstack{gap:3px}}
+@media (min-width:800px){.lstack{top:calc(68px + env(safe-area-inset-top))}#card:not([hidden]) ~ .lstack{right:436px}}
+html.cardfull .lstack{visibility:hidden}
+/* grouped pins (clusters): a bigger copy of the kind's icon + a count badge in the kind's color (app.js clusterize) */
+.kcg{position:relative;cursor:pointer}
+.kcgi{position:absolute;left:0;top:0;transform-origin:0 0;display:flex;align-items:center;justify-content:center}
+.kcn{position:absolute;top:-6px;right:-8px;min-width:17px;height:17px;padding:0 3px;box-sizing:border-box;border-radius:9px;color:#fff;font:800 10px/14px system-ui,sans-serif;text-align:center;border:1.5px solid #fff;box-shadow:0 1px 3px #0008;pointer-events:none}
+/* the group icon keeps its size when zoomed out (the single pins shrink with .z-low / .z-vlow), so a group always reads bigger */
+.kcgi .mk{transform:none!important}.z-low .kcgi .mk{transform:scale(.85)!important}.z-vlow .kcgi .mk{transform:scale(.7)!important}
+.kcgi .mk.prop{transform:rotate(-45deg)!important}
+
+/* ---- bottom sheet (phones): peek bar ---- */
+@media (max-width:799px){
+  #card.peek{max-height:calc(150px + env(safe-area-inset-bottom));overflow:hidden;cursor:pointer}
+  #card.peek .thumb,#card.peek .thumbbtn,#card.peek .gal,#card.peek [data-thumb],#card.peek .nbline{display:none}
+  #card.peek::after{content:"⌃  Tap or swipe up for details";position:absolute;left:0;right:0;bottom:0;padding:26px 0 calc(8px + env(safe-area-inset-bottom));text-align:center;
+    font:700 12px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--accent);background:linear-gradient(#fff0,#fff 45%);pointer-events:none}
+  #card.peek .ctmap,#card.peek #cardExp{display:none}
+}
+/* favorites heart, badges, directions/compare, near-me button */
+.ctfav{font-size:19px;color:#c62828}
+.ctfav.on{background:#fdecea}
+.nbdg{display:inline-block;font:800 10.5px/1 system-ui,sans-serif;padding:3px 6px;border-radius:6px;margin-right:6px;vertical-align:1px;letter-spacing:.2px}
+.nbdg.new{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
+.nbdg.cut{background:#fff3e0;color:#b45309;border:1px solid #fcd34d}
+.nbline{font-size:13px;margin:4px 0 8px;padding:6px 10px;background:#f6faf6;border-radius:8px}
+.gpsbtn{position:fixed;z-index:1000;right:8px;bottom:calc(76px + env(safe-area-inset-bottom));height:34px;padding:0 12px;border-radius:17px;border:0;background:#fff;color:var(--ink);
+  font:700 13px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 2px 8px #0005;cursor:pointer;touch-action:manipulation}
+html.cardfull .gpsbtn{visibility:hidden}
+.tmx{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
+#toast a{color:#9be7ea;font-weight:700}
+.medot{width:16px;height:16px;border-radius:50%;background:#1e88e5;border:3px solid #fff;box-shadow:0 0 0 2px #1e88e580,0 1px 6px #0006}
+/* compare table */
+.cmpwrap{overflow-x:auto;margin:8px -16px;padding:0 16px;-webkit-overflow-scrolling:touch}
+.cmpt{border-collapse:collapse;font-size:13px;min-width:100%}
+.cmpt th,.cmpt td{padding:6px 7px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:96px}
+.cmpt th{color:var(--muted);font-weight:600;min-width:84px;position:sticky;left:0;background:#fff}
+.cmpt td.best{background:#e8f5e9;font-weight:700}
+.cmpt img{width:100%;max-width:140px;height:80px;object-fit:cover;border-radius:6px}
+.xact{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.xact .btn{min-height:38px;text-decoration:none;display:inline-flex;align-items:center}
+.xh{font-weight:700;margin:14px 0 4px}
+.nrow{display:flex;justify-content:space-between;gap:8px}
+.ctb.ctfav[hidden]{display:none}
+
+/* county focus chip (bottom, between the zoom buttons and Top 10s) */
+.fchip{position:fixed;z-index:1000;left:54px;bottom:calc(26px + env(safe-area-inset-bottom));display:flex;max-width:calc(100vw - 54px - 124px);box-shadow:0 2px 10px #0005;border-radius:20px;overflow:hidden}
+.fchip[hidden]{display:none}
+.fchip button{border:0;height:40px;background:#e8a317;color:#1d1300;font:800 13px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer;touch-action:manipulation}
+#fcBack{padding:0 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#fcX{padding:0 13px;border-left:1px solid #0003;background:#f3c25a}
+html.cardfull .fchip{visibility:hidden}
+
+/* climate line + Compare areas (areas.js) */
+#climBox:empty{display:none}
+.clim{margin:10px 0 4px;padding:8px 10px;border-radius:10px;background:#f3f7fb;border:1px solid #dde7f0;font-size:13px;line-height:1.45}
+.climl{display:flex;flex-wrap:wrap;gap:2px 12px}
+.cl2{color:var(--muted);font-weight:400;font-size:12px}
+.clsrc{color:var(--muted);font-size:11px;margin-top:3px}
+.areasbtn{bottom:calc(118px + env(safe-area-inset-bottom))}
+.arT td{min-width:104px}
+.arT td.arH{background:#fafafa}
+.arpcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin:6px 0 10px}
+.arpc{border:1px solid var(--line);border-radius:10px;padding:8px;font-size:12.5px;line-height:1.4}
+.arpcH{font-weight:800;margin-bottom:3px}
+.arpc .pro{color:#1b5e20}.arpc .con{color:#b71c1c}
+.arpair{margin:8px 0 12px}
+.arpairH{font-weight:800;font-size:14px}
+.arvs{margin:10px 0 4px;border:1px solid #dde7f0;border-radius:10px;padding:8px 10px}
+.arvsH{font-weight:800;font-size:13.5px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.arvsL{font-weight:600;font-size:12.5px;white-space:nowrap}
+.arvs .cmpt{font-size:12.5px;width:100%}
+.arvs .cmpt th,.arvs .cmpt td{padding:4px 5px;min-width:0}
+.arsrc{color:var(--muted);font-size:11px;line-height:1.45;margin-top:12px}
+.arT th{min-width:96px;max-width:110px;font-size:12px;line-height:1.3}
+/* permanent RN jobs (perm.js): blue hats, job rows, Top 10 bubbles */
+.pjchips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 2px}
+.pjt{font-size:12px;line-height:1.2;padding:3px 7px;border-radius:10px;background:#eef2f7;color:#1f2d3d;white-space:nowrap}
+.pjt.pay{background:#e3f1e6;color:#1b5e20;font-weight:700}
+.pjt.nopay{background:#f3f3f3;color:#6b6b6b;font-style:italic}
+.pjt.bon{background:#fff4d6;color:#7a4b00;font-weight:600;white-space:normal}
+.pjtag{display:inline-block;font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;background:#1565c0;color:#fff}
+.pjtag.tr{background:#c62828}
+.gth.pjh{background:#e8f0fb}
+.gth.pjh svg{width:40px;height:25px}
+.pjmore{margin:8px 0;border-top:1px solid var(--line)}
+.pjmore>summary{cursor:pointer;font-weight:600;font-size:14px;padding:10px 0;color:var(--accent)}
+.pjfn{margin:4px 0 6px}
+.pjcm{font-size:13px;margin:2px 0 6px}
+.pjlink{margin:8px 0;font-size:14px}
+#layerList .pjfilter{display:block}
+#layerList .pjfilter .pjform{display:block;padding:4px 6px 8px 0}
+#layerList .pjfilter .pfsr{font-size:13px;min-height:30px}
+.topbub.tb-per{background:#0d47a1}
+.topbub.tb-psd{background:#283593}
+.topbub.tb-picu{background:#01579b}
+.topbub.tb-bon{background:#ad6800}
+/* Top 10 pill row: fixed to the bottom of the screen, a looping sideways carousel (app.js carousel()) */
+.tpills{position:fixed;z-index:996;left:0;right:0;bottom:0;height:calc(50px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);overflow:hidden;touch-action:none;
+  -webkit-user-select:none;user-select:none;background:linear-gradient(#0000,#0003 60%);-webkit-mask-image:linear-gradient(90deg,#0000,#000 5%,#000 95%,#0000);mask-image:linear-gradient(90deg,#0000,#000 5%,#000 95%,#0000)}
+.tpills .tpill{position:absolute;left:0;top:7px;width:auto;height:36px;padding:0 13px 0 4px;gap:6px;border-radius:18px;white-space:nowrap;font:800 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-shadow:0 2px 8px #0006,0 0 0 1.5px #fff;transform-origin:center;will-change:transform;-webkit-tap-highlight-color:transparent;touch-action:none}
+.tpills .tpill .tbi{flex:0 0 28px;width:28px;height:28px}
+.tpills .tpill.cc{box-shadow:0 3px 12px #0007,0 0 0 2px #ffd600}
+.tpills .tpill:active{filter:brightness(1.15)}
+html.cardon .tpills,html.cardfull .tpills{display:none}
+/* lift the bottom controls above the pill row */
+html.haspills:not(.cardon) .topbtn{bottom:calc(76px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .gpsbtn{bottom:calc(126px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .areasbtn{bottom:calc(168px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .topmenu{bottom:calc(124px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .fchip{bottom:calc(76px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .leaflet-bottom{bottom:calc(50px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) #toast{bottom:calc(80px + env(safe-area-inset-bottom))}
+/* full-screen button (Leaflet control above the zoom buttons) */
+.leaflet-bar a.fsbtn,a.fsbtn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;background:#fff;color:#123642;border-radius:6px;box-shadow:0 1px 5px #0006;margin-bottom:6px}
+a.fsbtn.on{background:#123642;color:#fff}
+.leaflet-left a.fsbtn.fsctl{clear:none;margin-left:6px;width:30px;height:30px;border:2px solid #0003;box-shadow:none;border-radius:6px;background-clip:padding-box}
+/* landscape phone: right-hand stack = vertical looping wheel (app.js carousel(), axis y) */
+.lstack.wheel{display:block;top:calc(58px + env(safe-area-inset-top));bottom:calc(56px + env(safe-area-inset-bottom));right:calc(4px + env(safe-area-inset-right));width:150px;overflow:hidden;touch-action:none;
+  -webkit-user-select:none;user-select:none;-webkit-mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000);mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000)}
+.lstack.wheel>*{position:absolute;top:0;right:6px;bottom:auto;left:auto;margin:0;transform-origin:right center;will-change:transform;touch-action:none;-webkit-tap-highlight-color:transparent}
+.lstack.wheel>.gpsbtn,.lstack.wheel>.topbtn{position:absolute;height:32px;min-height:0;padding:0 11px;font-size:13px;box-shadow:0 1px 5px #0004}
+.lstack.wheel>.topbtn{box-shadow:0 0 0 2px #ffd600}
+.lstack.wheel>.cc{box-shadow:0 2px 10px #0006,0 0 0 2px #ffd600}
+/* state switcher (KY | TN) in the top bar */
+.stsw2{display:flex;flex:0 0 auto;align-self:center;height:34px;border-radius:17px;background:#fff;box-shadow:0 1px 6px #0004;overflow:hidden;font:800 13px/34px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;margin-right:6px}
+.stsw2>*{padding:0 9px;color:#123642;text-decoration:none}
+.stsw2 .on{background:#123642;color:#fff}
+.stsw2 a:active{background:#e6f2f2}
+/* Oct 4 2026 (NH map = 10 states): the state switcher shrinks and scrolls sideways on narrow phones so the Layers / close buttons stay on screen */
+.stsw2{flex:0 1 auto;min-width:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch}.stsw2::-webkit-scrollbar{display:none}.stsw2>*{flex:0 0 auto}
+@media (max-width:480px){.stsw2>*{padding:0 7px}}
+
+/* ---- top pills: "Map key" (left) + "Search" (right), both collapsed by default (app.js showPnl / setPanel) ---- */
+#topbar{top:calc(8px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));z-index:1003}
+#topbar.collapsed{left:auto;justify-content:flex-end}
+#topbar.collapsed>:not(#srchPill){display:none!important}
+.tpill2{flex:0 0 auto;height:36px;padding:0 14px;border-radius:18px;border:0;background:#123642;color:#fff;font:800 14px/36px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-shadow:0 2px 8px #0004;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+#topbar:not(.collapsed) .tpill2{width:36px;padding:0;background:#fff;color:#123642;font-size:16px;box-shadow:0 1px 6px #0004}
+.tpill2:focus-visible,#keyToggle:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+#mapKey,#mapKey.collapsed{top:calc(8px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));z-index:1002}
+#mapKey{max-height:calc(100vh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
+#mapKey.collapsed{width:auto;border-radius:18px;background:transparent;box-shadow:0 2px 8px #0004}
+#mapKey.collapsed .keyhead{height:36px;padding:0 14px;border-radius:18px;font:800 14px/36px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;gap:6px}
+#mapKey.collapsed .keymini,#mapKey.collapsed .keymetric{display:none}
+#mapKey.collapsed .chev{transform:none}
+#mapKey:not(.collapsed) .chev{transform:rotate(180deg)}
+html.srchopen #mapKey{visibility:hidden}  /* the open search bar uses the whole top row */
+#layersPanel{top:calc(52px + env(safe-area-inset-top));z-index:1003;max-height:calc(100vh - 64px - env(safe-area-inset-top));max-height:calc(100dvh - 64px - env(safe-area-inset-top))}
+.profbar{top:calc(52px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left))}
+.lstack{top:calc(52px + env(safe-area-inset-top));right:calc(8px + env(safe-area-inset-right))}
+.lstack.wheel{top:calc(50px + env(safe-area-inset-top))}
+@media (min-width:800px){.profbar{left:calc(8px + env(safe-area-inset-left));top:calc(52px + env(safe-area-inset-top))}.lstack{top:calc(52px + env(safe-area-inset-top))}}
+/* wide / landscape: the profile pills share the top row with the two pills (more map) */
+@media (min-width:600px){.profbar{top:calc(10px + env(safe-area-inset-top));left:calc(122px + env(safe-area-inset-left))}}
+@media (max-width:799px) and (orientation:portrait){#mapKey{max-height:62vh}}
+html.pnlopen:not(.srchopen) #mapKey{z-index:1004}
+/* map credit (app.js: no Leaflet prefix, bottom-left above the scale): tiny, see-through, still a link (OSM license) */
+.leaflet-container .leaflet-control-attribution{font-size:8px;line-height:1.25;padding:0 3px;margin:0 0 2px 5px;background:rgba(255,255,255,.35);color:#333;border-radius:3px;box-shadow:none;max-width:calc(100vw - 150px)}
+.leaflet-container .leaflet-control-attribution a{color:#1a4f8a}
+.lic{display:inline-block;line-height:0;vertical-align:-3px}.lic svg{display:inline-block}
+/* ski areas & peaks cards (Oct 3, 2026) */
+.mtnl{margin:4px 0 6px;padding-left:18px;font-size:13px}.mtnl li{margin:2px 0}
+.mtnsrc{font-size:12px;margin:8px 0}.mtnsrc summary{cursor:pointer;color:var(--muted)}.mtnsrc div{overflow-wrap:anywhere}
+
+/* kyxUI3 (Oct 3, 2026): purple bargains, 3-pill carousel, wheel-scrollable right column */
+.topbub.tb-deals{background:#8e24aa}
+.note.deal{background:#f3e5f5;border-left-color:#8e24aa;color:#3b0a4a}
+.tpills{-webkit-mask-image:none;mask-image:none;left:50%;right:auto;width:min(100vw,660px);transform:translateX(-50%)}
+.tpills .tpill.w3{padding:0 8px 0 4px;gap:5px;justify-content:flex-start;overflow:hidden}
+.tpills .tpill.w3 .tbt{overflow:hidden;text-overflow:ellipsis;min-width:0}
+@media (max-width:440px){.tpills .tpill.w3{font-size:12.5px}.tpills .tpill.w3 .tbi{flex-basis:26px;width:26px;height:26px}}
+.lstack:not(.wheel){max-height:calc(100vh - 290px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+  scrollbar-width:none;padding:3px 3px 4px 14px;margin:-3px -3px 0 0}
+.lstack:not(.wheel)::-webkit-scrollbar{display:none}
+.lstack:not(.wheel)>*{flex-shrink:0}
+
+/* border items (Oct 3, 2026) */
+.btag{margin:4px 0 6px;padding:5px 9px;border-radius:8px;background:#fff3e0;border-left:4px solid #ef6c00;color:#4e2a00;font-size:13px}
+.btag .bst{display:inline-block;margin-left:2px;padding:0 6px;border-radius:7px;background:#ef6c00;color:#fff;font-weight:800;font-size:11px;line-height:17px}
+
+/* purple bargain star used inline (Bargain filter button, Map key, deal note, Top 10 rows) — same icon as the bargain pins (#8e24aa) */
+.bstar{display:inline-block;line-height:0;vertical-align:-.22em}.bstar svg{width:1.15em;height:1.15em}
+.lsb .lsi .bstar svg{width:18px;height:18px}
+.gstar{color:#6a1b9a}
+
+/* kyxUI4 (Oct 3, 2026): the pill row width is set by JS (3 whole content-sized pills); never wider than the screen */
+.tpills{max-width:100vw}
+/* kyxUI5 (Oct 3, 2026): the 3-pill row sits snug on the bottom edge of the map at the bottom left (5 px + safe area), on every window size;
+   everything stacked above it (Leaflet zoom / scale / credit, Top 10s, Near me, Areas, filter chip, toast) moves with the 46 px row height */
+.tpills{left:env(safe-area-inset-left,0px);right:auto;transform:none;bottom:0;height:calc(46px + env(safe-area-inset-bottom));padding-bottom:0}
+.tpills .tpill{top:auto;bottom:calc(5px + env(safe-area-inset-bottom));transform-origin:50% 100%}
+html.haspills:not(.cardon) .leaflet-bottom{bottom:calc(46px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .topbtn{bottom:calc(72px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .gpsbtn{bottom:calc(122px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .areasbtn{bottom:calc(164px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .topmenu{bottom:calc(120px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) .fchip{bottom:calc(72px + env(safe-area-inset-bottom))}
+html.haspills:not(.cardon) #toast{bottom:calc(76px + env(safe-area-inset-bottom))}
+.lstack.wheel{bottom:calc(52px + env(safe-area-inset-bottom))}
+/* short windows (e.g. a laptop browser above the Windows taskbar): tighter Top 10s / Near me / Areas so the right-hand column fits above Areas */
+@media (max-height:640px) and (min-height:501px){
+  html.haspills:not(.cardon) .topbtn{bottom:calc(54px + env(safe-area-inset-bottom))}
+  html.haspills:not(.cardon) .gpsbtn{bottom:calc(98px + env(safe-area-inset-bottom))}
+  html.haspills:not(.cardon) .areasbtn{bottom:calc(136px + env(safe-area-inset-bottom))}
+  html.haspills:not(.cardon) .topmenu{bottom:calc(100px + env(safe-area-inset-bottom))}
+  html.haspills:not(.cardon) .fchip{bottom:calc(54px + env(safe-area-inset-bottom))}
+  .topbtn{min-height:38px;padding-top:8px;padding-bottom:8px}.gpsbtn{height:32px}
+  .lstack:not(.wheel){gap:2px}.lstack:not(.wheel) .lsb{height:26px}  /* 13 buttons (Maine: + Cabin) fit at 1366x600 */
+}
+
+/* Oct 4 2026: 50+ acre lots under $250k (black star) */
+.mk.big{background:none;border:0;box-shadow:none;filter:drop-shadow(0 1px 1.5px #0007)}.bkstar{display:inline-flex;vertical-align:-3px}.bkstar svg{display:block}
+
+/* Oct 4 2026: caves (flying bat) and waterfalls on the property */
+.mk.cvf{background:none;border:0;box-shadow:none;filter:drop-shadow(0 1px 1.5px #0007)}.cfic{display:inline-flex;align-items:center;gap:2px;vertical-align:-3px}.cfic svg{display:block}.note.cfq{font-style:normal}
+@media (max-height:800px) and (min-height:641px){.lsb{height:30px}.lstack{gap:3px}}  /* 2 more buttons (Cave, Falls): the stack still fits on a 768 px laptop */
+
+/* Anna profile (Oct 5, 2026): 5th top button, engineering-job pins, Anna homes, spouse jobs, Anna score block */
+.pfb.pfa{border-color:#ff9800;color:#7a3e00}
+.pfb.pfa.on{background:#263238;border-color:#263238;color:#ffb74d}
+.plab.eng{color:#7a3e00;border-left:3px solid #ff9800}
+.z-low .plab.eng{display:none}
+.topbub.tb-eng{background:#263238}
+.topbub.tb-spj{background:#00796b}
+.topbub.tb-ah{background:#3949ab}
+.appeal.anna{background:#fff6e8}
+.annaline{margin:6px 0 2px}
+#layerList [hidden],#layersPanel [hidden],#metricSel [hidden]{display:none!important}
