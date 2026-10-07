@@ -1,6 +1,9 @@
 # North Carolina Explorer — change log
 
 Newest first. Times are ET.
+## 2026-10-07
+- 15:02 ET: Listings refresh: +2 new, -0 sold (7 unconfirmed kept), 11 price drops; big land 11→10; 2550 perm RN jobs; Anna: 26 eng / 59 spouse jobs, 260 homes (2026-10-07)
+
 ## 2026-10-05
 - 23:55 ET: Anna profile: engineering jobs now labeled as Shawn's (Anna's husband), leasing/billing jobs as Anna's
 - 23:26 ET: North Carolina: fix listings whose lot square feet were entered as acres (2 homes, 3 big-land lots removed), drop a duplicate big-land lot; big land now 11 lots
