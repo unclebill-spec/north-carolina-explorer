@@ -2,6 +2,7 @@
 
 Newest first. Times are ET.
 ## 2026-10-07
+- 17:18 ET: Target stores layer: every Target in North Carolina (57, Target's own store directory) plus 6 within ~15 mi over the line (SC 3, VA 3; tagged, not counted in county stats). Small red bullseye pins (grouped, faint dots when zoomed out), right-side 'Target' button (also in Anna mode), store cards with address, phone, regular hours and services, share links #target=<store number>, and the nearest Target (OSRM free-flow drive time) in every property card's Nearby section.
 - 15:02 ET: Listings refresh: +2 new, -0 sold (7 unconfirmed kept), 11 price drops; big land 11→10; 2550 perm RN jobs; Anna: 26 eng / 59 spouse jobs, 260 homes (2026-10-07)
 
 ## 2026-10-05
