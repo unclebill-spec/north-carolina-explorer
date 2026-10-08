@@ -67,3 +67,4 @@ Never work around it. Homes come from Redfin's public map-search data:
 
 ## Active filter on top: kyxFoc (Oct 7, 2026 ~9 PM ET) — shared app.js/style.css
 - The active right-side button / Anna button / open Top 10 list draws its pins 1.4x larger (groups 1.15x) and above everything; other pins (trauma, airports, cities...) go 0.72x and underneath while it is on. No filter = unchanged. Details: /workspace/kentucky/explorer/AGENTS.md "Active filter on top"; test /workspace/filterfocus/smoke.py BASE TAG.
+- Oct 8, 2026: "Hospitals" right-side button (all hospitals incl. border, existing icons; trauma centers topmost; hidden in Anna). Details: KY explorer/AGENTS.md "Hospitals button: kyxHosp".
