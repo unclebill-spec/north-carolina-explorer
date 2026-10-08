@@ -2,6 +2,7 @@
 
 Newest first. Times are ET.
 ## 2026-10-07
+- 20:52 ET: Active filter on top: whatever right-side button or Top 10 list is selected (Target, Bargain, 50+ ac, Cave, Falls, Jobs, Anna's buttons, a Top 10 list...) now draws its pins 1.4x larger (its groups 1.15x) and above every other pin; always-on pins (trauma centers, airports, cities...) stay visible but smaller (0.72x) and underneath while it is on. Turning the filter off restores the normal map exactly (shared app code, same on every map).
 - 17:37 ET: Target store cards: the location row now reads 'County: Wake County' (shared app code, same on every map).
 - 17:18 ET: Target stores layer: every Target in North Carolina (57, Target's own store directory) plus 6 within ~15 mi over the line (SC 3, VA 3; tagged, not counted in county stats). Small red bullseye pins (grouped, faint dots when zoomed out), right-side 'Target' button (also in Anna mode), store cards with address, phone, regular hours and services, share links #target=<store number>, and the nearest Target (OSRM free-flow drive time) in every property card's Nearby section.
 - 15:02 ET: Listings refresh: +2 new, -0 sold (7 unconfirmed kept), 11 price drops; big land 11→10; 2550 perm RN jobs; Anna: 26 eng / 59 spouse jobs, 260 homes (2026-10-07)
