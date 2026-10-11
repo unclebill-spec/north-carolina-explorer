@@ -1,6 +1,9 @@
 # North Carolina Explorer — change log
 
 Newest first. Times are ET.
+## 2026-10-11
+- 10:45 ET: Listings refresh r3: +0 new, -0 sold/off-market, 6 price drops, 6 price changes; bigland/cavefalls/perm refreshed (r3-2026-10-11)
+
 ## 2026-10-08
 - 00:16 ET: New right-side 'Hospitals' filter button: shows every hospital on the map, including hospitals within ~15 mi over the state line, with the icons they already have. While it is on, hospitals are drawn larger and on top, every trauma center sits above every other hospital (single pins and groups), and other pins shrink underneath. Hidden in Anna mode. Shared app code, same on every map.
 
