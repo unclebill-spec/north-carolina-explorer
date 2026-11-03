@@ -1,3 +1,5 @@
+> **Before any work here:** read /workspace/RESOURCES.md (team rules), your /workspace/bot-tools/<slug>.md tool list, and the game order in /workspace/NAMES.md. (Will, Nov 1, 2026)
+
 # North Carolina Explorer — agent handoff
 
 Static Leaflet map for a nurse household (Bill and Heather, RNs) plus the Anna engineer-family profile, the same shared app as the other 10 Explorers
