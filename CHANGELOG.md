@@ -1,6 +1,9 @@
 # North Carolina Explorer — change log
 
 Newest first. Times are ET.
+## 2026-11-12
+- 08:19 ET: Listings refresh r23: +0 new, -0 sold/off-market, 12 price drops, 12 price changes; bigland/cavefalls/perm refreshed (r23-2026-11-12)
+
 ## 2026-11-09
 - 18:13 ET: Listings refresh r22: +0 new, -0 sold/off-market, 18 price drops, 19 price changes; bigland/cavefalls/perm refreshed (r22-2026-11-09)
 
