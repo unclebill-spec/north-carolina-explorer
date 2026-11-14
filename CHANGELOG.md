@@ -1,6 +1,10 @@
 # North Carolina Explorer — change log
 
 Newest first. Times are ET.
+## 2026-11-14
+- 02:38 ET: Add Houses (no-land homes) and Towns (townhomes/apartments/condos) layers data
+- 02:37 ET: Add Houses (no-land homes) and Towns (townhomes/apartments/condos) layers data
+
 ## 2026-11-12
 - 08:19 ET: Listings refresh r23: +0 new, -0 sold/off-market, 12 price drops, 12 price changes; bigland/cavefalls/perm refreshed (r23-2026-11-12)
 
